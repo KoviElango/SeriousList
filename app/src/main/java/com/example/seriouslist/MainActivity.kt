@@ -16,12 +16,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SeriousListTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    DragAndDropBoxes(
-                        modifier = Modifier
-                            .padding(innerPadding)
-                    )
-                }
+                EisenhowerMatrixScreen()
             }
         }
     }
