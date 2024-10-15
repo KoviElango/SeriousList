@@ -34,7 +34,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import kotlin.random.Random
 
-@OptIn(ExperimentalFoundationApi::class)
+
+@ExperimentalFoundationApi
 @Composable
 fun DragAndDropBoxes(modifier: Modifier = Modifier) {
     Column(
@@ -89,9 +90,14 @@ fun DragAndDropBoxes(modifier: Modifier = Modifier) {
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier
                             .dragAndDropSource(
+//                                drawDragDecoration = {
+//                                    drawRect(
+//                                        color = Color.Red
+//                                    )
+//                                }
                             ) {
                                 detectTapGestures(
-                                    onLongPress = {
+                                    onLongPress = { offset ->
                                         startTransfer(
                                             transferData = DragAndDropTransferData(
                                                 clipData = ClipData.newPlainText(
