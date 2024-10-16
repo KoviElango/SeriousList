@@ -124,6 +124,7 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
                         _tasks.value = taskList
                     }
                 }
+
                 SortType.URGENT_NOT_IMPORTANT -> {
                     dao.getUrgentNotImportantTasks().collect { taskList ->
                         _tasks.value = taskList

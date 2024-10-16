@@ -10,10 +10,12 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import com.example.seriouslist.local_data_storage.TaskEntity
 
 /**
  * Represents a quadrant in the Eisenhower Matrix.
@@ -39,7 +41,8 @@ object EisenhowerMatrix {
  * Composable function that displays the Eisenhower Matrix screen.
  */
 @Composable
-fun EisenhowerMatrixScreen() {
+fun EisenhowerMatrixScreen(viewModel: TaskViewModel) {
+    val tasks by viewModel.tasks.collectAsState()
     var expandedQuadrant by remember { mutableStateOf<Quadrant?>(null) }
 
     Surface(
@@ -47,8 +50,10 @@ fun EisenhowerMatrixScreen() {
         color = MaterialTheme.colorScheme.background
     ) {
         if (expandedQuadrant != null) {
+            val filteredTasks = filterTasksForQuadrant(expandedQuadrant!!, tasks)
             ExpandedQuadrant(
                 quadrant = expandedQuadrant!!,
+                tasks = filteredTasks,
                 onClose = { expandedQuadrant = null }
             )
         } else {
@@ -60,6 +65,19 @@ fun EisenhowerMatrixScreen() {
     }
 }
 
+/**
+ * Filter tasks based on the quadrant type (urgency and importance).
+ */
+
+fun filterTasksForQuadrant(quadrant: Quadrant, tasks: List<TaskEntity>): List<TaskEntity> {
+    return when (quadrant.text) {
+        "Do First" -> tasks.filter { it.urgency && it.importance }
+        "Schedule" -> tasks.filter { !it.urgency && it.importance }
+        "Delegate" -> tasks.filter { it.urgency && !it.importance }
+        "Eliminate" -> tasks.filter { !it.urgency && !it.importance }
+        else -> emptyList()
+    }
+}
 /**
  * Displays a grid of quadrants.
  *
@@ -126,14 +144,17 @@ fun QuadrantBox(
 }
 
 /**
- * Displays an expanded view of a quadrant.
+ * Displays an expanded view of a quadrant with the list of tasks.
  *
  * @param quadrant The quadrant to display in expanded view.
+ * @param tasks The list of tasks associated with the quadrant.
  * @param onClose Callback for when the expanded view is closed.
  */
+
 @Composable
 fun ExpandedQuadrant(
     quadrant: Quadrant,
+    tasks: List<TaskEntity>,
     onClose: () -> Unit
 ) {
     Card(
@@ -148,12 +169,21 @@ fun ExpandedQuadrant(
                 .fillMaxSize()
                 .background(quadrant.color)
         ) {
-            Text(
-                text = quadrant.text,
-                modifier = Modifier.align(Alignment.Center),
-                color = Color.White,
-                fontSize = 30.sp
-            )
+            Column {
+                Text(
+                    text = quadrant.text,
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(16.dp),
+                    color = Color.White,
+                    fontSize = 30.sp
+                )
+                LazyColumn(modifier = Modifier.weight(1f)) {
+                    items(tasks) { task ->
+                        TaskItem(task)
+                    }
+                }
+            }
             IconButton(
                 onClick = onClose,
                 modifier = Modifier
@@ -171,8 +201,22 @@ fun ExpandedQuadrant(
     }
 }
 
-@Preview(showBackground = true)
+/**
+ * Displays a task item.
+ *
+ * @param task The task to display.
+ */
 @Composable
-fun EisenhowerMatrixScreenPreview() {
-    EisenhowerMatrixScreen()
+fun TaskItem(task: TaskEntity) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        elevation = CardDefaults.cardElevation(4.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = task.itemName, fontSize = 20.sp, color = Color.Black)
+            Text(text = "Deadline: ${task.deadline}", fontSize = 14.sp, color = Color.Gray)
+        }
+    }
 }
