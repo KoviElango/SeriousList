@@ -7,10 +7,12 @@ import java.util.Date
 @Entity(tableName = "tasks")
 data class TaskEntity(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val listItem: String,
+    val itemName: String,
     val isCompleted: Boolean,
     val urgency: Boolean,
     val importance: Boolean,
     val createdDate: Date,
     val completedDate: Date?,
+    val deadline: Date,
+    val isArchived: Boolean = false,
 )

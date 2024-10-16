@@ -5,15 +5,32 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface TaskDao {
-    @Query("SELECT * FROM tasks ORDER BY createdDate DESC")
-    fun getAllTasks(): Flow<List<TaskEntity>>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Upsert
     suspend fun insertTask(task: TaskEntity)
-
-    @Update
-    suspend fun updateTask(task: TaskEntity)
 
     @Delete
     suspend fun deleteTask(task: TaskEntity)
+
+    @Query("SELECT * FROM tasks WHERE isArchived = 0")
+    fun getActiveTasks(): Flow<List<TaskEntity>>
+
+    @Query("SELECT * FROM tasks WHERE isArchived = 1 ORDER BY createdDate ASC")
+    fun getArchivedTasks(): Flow<List<TaskEntity>>
+
+    @Query("SELECT * FROM tasks WHERE urgency = 1 AND importance = 1 AND isArchived = 0")
+    fun getUrgentImportantTasks(): Flow<List<TaskEntity>>
+
+    @Query("SELECT * FROM tasks WHERE urgency = 0 AND importance = 1 AND isArchived = 0")
+    fun getNotUrgentImportantTasks(): Flow<List<TaskEntity>>
+
+    @Query("SELECT * FROM tasks WHERE urgency = 1 AND importance = 0 AND isArchived = 0")
+    fun getUrgentNotImportantTasks(): Flow<List<TaskEntity>>
+
+    @Query("SELECT * FROM tasks WHERE urgency = 0 AND importance = 0 AND isArchived = 0")
+    fun getNotUrgentNotImportantTasks(): Flow<List<TaskEntity>>
+
+    @Query("SELECT * FROM tasks WHERE isArchived = 0 ORDER BY createdDate ASC")
+    fun getTasksSortedByCreatedDate(): Flow<List<TaskEntity>>
 }
+
