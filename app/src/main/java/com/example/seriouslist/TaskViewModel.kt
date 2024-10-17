@@ -84,8 +84,9 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
                         completedDate = null,
                         isArchived = false
                     )
-                    dao.insertTask(task)
                     Log.d("TaskViewModel", "Task inserted: $task")
+                    dao.insertTask(task)
+
                 }
             }
 
