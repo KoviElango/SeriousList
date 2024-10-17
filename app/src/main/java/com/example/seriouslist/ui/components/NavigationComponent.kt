@@ -1,4 +1,4 @@
-package com.example.seriouslist.ui.screens
+package com.example.seriouslist.ui.components
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -8,6 +8,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.seriouslist.TaskViewModel
+import com.example.seriouslist.ui.screens.ArchiveScreen
+import com.example.seriouslist.ui.screens.EisenhowerMatrixScreen
+import com.example.seriouslist.ui.screens.TaskListScreen
 
 @Composable
 fun NavigationComponent(
@@ -23,10 +26,10 @@ fun NavigationComponent(
             EisenhowerMatrixScreen(viewModel = viewModel, modifier = Modifier.padding(paddingValues))
         }
         composable("list") {
-            TaskListScreen(viewModel = viewModel, modifier = Modifier.padding(paddingValues))
+            TaskListScreen(viewModel = viewModel)
         }
         composable("archive") {
-            ArchiveScreen(viewModel = viewModel, modifier = Modifier.padding(paddingValues))
+            ArchiveScreen(viewModel = viewModel)
         }
     }
 }

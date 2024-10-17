@@ -68,12 +68,17 @@ dependencies {
     // Room dependencies
     implementation("androidx.room:room-runtime:2.6.0")
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.material)
     ksp("androidx.room:room-compiler:2.6.0")
     implementation("androidx.room:room-ktx:2.6.0")
 
     //material3 icons
     implementation ("androidx.compose.material:material-icons-core:1.5.0")
     implementation ("androidx.compose.material:material-icons-extended:1.5.0")
+
+    //material3 calendar
+    implementation("com.google.android.material:material:1.9.0")
+    
     // Test dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

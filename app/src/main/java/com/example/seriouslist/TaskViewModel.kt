@@ -1,5 +1,6 @@
 package com.example.seriouslist
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.seriouslist.local_data_storage.TaskDao
@@ -84,8 +85,10 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
                         isArchived = false
                     )
                     dao.insertTask(task)
+                    Log.d("TaskViewModel", "Task inserted: $task")
                 }
             }
+
             is TaskEvent.SortTasks -> {
                 // Handle sorting based on SortType
                 sortTasks(event.sortType)
