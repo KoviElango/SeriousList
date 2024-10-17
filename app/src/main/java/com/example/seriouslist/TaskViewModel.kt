@@ -32,11 +32,13 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
                     dao.insertTask(archivedTask)
                 }
             }
+
             is TaskEvent.DeleteTask -> {
                 viewModelScope.launch {
                     dao.deleteTask(event.task)
                 }
             }
+
             TaskEvent.GetTasksSortedByCreatedDate -> {
                 viewModelScope.launch {
                     dao.getTasksSortedByCreatedDate().collect { taskList ->
@@ -44,6 +46,7 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
                     }
                 }
             }
+
             TaskEvent.GetUrgentImportantTasks -> {
                 viewModelScope.launch {
                     dao.getUrgentImportantTasks().collect { taskList ->
@@ -51,6 +54,7 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
                     }
                 }
             }
+
             TaskEvent.GetNotUrgentImportantTasks -> {
                 viewModelScope.launch {
                     dao.getNotUrgentImportantTasks().collect { taskList ->
@@ -58,6 +62,7 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
                     }
                 }
             }
+
             TaskEvent.GetUrgentNotImportantTasks -> {
                 viewModelScope.launch {
                     dao.getUrgentNotImportantTasks().collect { taskList ->
@@ -65,6 +70,7 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
                     }
                 }
             }
+
             TaskEvent.GetNotUrgentNotImportantTasks -> {
                 viewModelScope.launch {
                     dao.getNotUrgentNotImportantTasks().collect { taskList ->
@@ -72,6 +78,7 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
                     }
                 }
             }
+
             TaskEvent.SaveTask -> {
                 viewModelScope.launch {
                     val task = TaskEntity(
@@ -84,9 +91,9 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
                         completedDate = null,
                         isArchived = false
                     )
-                    Log.d("TaskViewModel", "Task inserted: $task")
+                    Log.d("TaskViewModel", "Attempting to insert task: $task")
                     dao.insertTask(task)
-
+                    Log.d("TaskViewModel", "Task inserted: $task")
                 }
             }
 
@@ -94,20 +101,25 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
                 // Handle sorting based on SortType
                 sortTasks(event.sortType)
             }
+
             is TaskEvent.UpdateTask -> {
                 viewModelScope.launch {
                     dao.insertTask(event.task)
                 }
             }
+
             is TaskEvent.SetTaskName -> {
                 _taskState.value = _taskState.value.copy(taskName = event.itemName)
             }
+
             is TaskEvent.SetDeadline -> {
                 _taskState.value = _taskState.value.copy(deadline = event.deadline)
             }
+
             is TaskEvent.SetImportance -> {
                 _taskState.value = _taskState.value.copy(importance = event.importance)
             }
+
             is TaskEvent.SetUrgency -> {
                 _taskState.value = _taskState.value.copy(urgency = event.urgency)
             }
@@ -123,6 +135,7 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
                         _tasks.value = taskList
                     }
                 }
+
                 SortType.NOT_URGENT_IMPORTANT -> {
                     dao.getNotUrgentImportantTasks().collect { taskList ->
                         _tasks.value = taskList
@@ -134,11 +147,13 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
                         _tasks.value = taskList
                     }
                 }
+
                 SortType.NOT_URGENT_NOT_IMPORTANT -> {
                     dao.getNotUrgentNotImportantTasks().collect { taskList ->
                         _tasks.value = taskList
                     }
                 }
+
                 SortType.CREATED_DATE -> {
                     dao.getTasksSortedByCreatedDate().collect { taskList ->
                         _tasks.value = taskList
@@ -157,3 +172,4 @@ class TaskViewModel(private val dao: TaskDao) : ViewModel() {
         }
     }
 }
+

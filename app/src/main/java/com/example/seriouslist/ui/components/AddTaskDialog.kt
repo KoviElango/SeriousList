@@ -1,6 +1,7 @@
 package com.example.seriouslist.ui.components
 
 import android.app.DatePickerDialog
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -85,6 +86,7 @@ fun AddTaskDialog(
             Button(
                 onClick = {
                     if (taskName.isNotBlank()) {
+                        Log.d("AddTaskDialog", "onSave triggered with: $taskName, $isUrgent, $isImportant, $deadline")
                         onSave(taskName, isUrgent, isImportant, deadline)
                     }
                 }
