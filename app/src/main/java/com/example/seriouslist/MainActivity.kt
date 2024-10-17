@@ -7,6 +7,8 @@ import androidx.activity.viewModels
 import androidx.room.Room
 import com.example.seriouslist.ui.theme.SeriousListTheme
 import com.example.seriouslist.local_data_storage.TaskDatabase
+import com.example.seriouslist.ui.screens.EisenhowerMatrixScreen
+import com.example.seriouslist.ui.screens.HomeScreen
 
 class MainActivity : ComponentActivity() {
     private val taskViewModel: TaskViewModel by viewModels {
@@ -23,7 +25,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SeriousListTheme {
-                EisenhowerMatrixScreen(viewModel = taskViewModel)
+                HomeScreen(taskViewModel)
             }
         }
     }

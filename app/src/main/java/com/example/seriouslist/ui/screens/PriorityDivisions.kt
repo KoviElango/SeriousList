@@ -1,4 +1,4 @@
-package com.example.seriouslist
+package com.example.seriouslist.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import com.example.seriouslist.TaskViewModel
 import com.example.seriouslist.local_data_storage.TaskEntity
 
 /**
@@ -41,7 +42,7 @@ object EisenhowerMatrix {
  * Composable function that displays the Eisenhower Matrix screen.
  */
 @Composable
-fun EisenhowerMatrixScreen(viewModel: TaskViewModel) {
+fun EisenhowerMatrixScreen(viewModel: TaskViewModel, modifier: Modifier = Modifier) {
     val tasks by viewModel.tasks.collectAsState()
     var expandedQuadrant by remember { mutableStateOf<Quadrant?>(null) }
 
