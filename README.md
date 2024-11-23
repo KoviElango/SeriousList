@@ -10,3 +10,12 @@ Add Tasks: Add tasks with a deadline, urgency, and importance.
 Persistent Storage: All tasks are saved locally using Room Database.
 Dynamic Navigation: Easily switch between views using a bottom navigation bar.
 Material Design 3: Sleek and modern UI with Floating Action Buttons and custom themes.
+
+Tech Stack:
+Language: Kotlin
+Framework: Jetpack Compose
+Database: Room
+State Management: StateFlow
+Architecture: MVVM with Repository Pattern
+Dependency Injection: [Optional: Add DI framework like Hilt or Koin]
+Build System: Gradle
